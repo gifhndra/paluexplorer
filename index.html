@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palu Explorer - Informasi Wisata, UMKM & Event di Sulawesi Tengah</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --secondary: #159895;
+            --accent: #57c5b6;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gold: #ffd700;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .search-bar {
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            padding: 5px 15px;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            width: 200px;
+        }
+        
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1593693397690-362cb9666fc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .section-header p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Wisata Section */
+        .wisata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .wisata-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .wisata-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .wisata-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .wisata-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .wisata-card:hover .wisata-img img {
+            transform: scale(1.1);
+        }
+        
+        .wisata-info {
+            padding: 1.5rem;
+        }
+        
+        .wisata-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .wisata-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #777;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .wisata-location i {
+            color: var(--accent);
+        }
+        
+        .wisata-desc {
+            color: #555;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .wisata-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .wisata-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gold);
+        }
+        
+        .wisata-map {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* UMKM Section */
+        .umkm-section {
+            background-color: #f9f9f9;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .umkm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .umkm-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .umkm-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .umkm-img {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .umkm-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .umkm-info {
+            padding: 1.5rem;
+        }
+        
+        .umkm-category {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .umkm-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .umkm-desc {
+            color: #555;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .umkm-price {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .umkm-story {
+            color: #777;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* Event Section */
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .event-date {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+        }
+        
+        .event-date .day {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .event-date .month {
+            font-size: 0.9rem;
+        }
+        
+        .event-img {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .event-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-info {
+            padding: 1.5rem;
+        }
+        
+        .event-type {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .event-location, .event-organizer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .event-location i, .event-organizer i {
+            color: var(--accent);
+        }
+        
+        .event-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .price-tag {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-col p {
+            margin-bottom: 1rem;
+            color: #bbb;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .wisata-grid, .umkm-grid, .event-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-mountain fa-2x"></i>
+                    <h1>Palu Explorer</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Beranda</a></li>
+                        <li><a href="#wisata">Wisata</a></li>
+                        <li><a href="#umkm">UMKM</a></li>
+                        <li><a href="#event">Event</a></li>
+                        <li><a href="#">Tentang</a></li>
+                    </ul>
+                </nav>
+                <div class="search-bar">
+                    <input type="text" placeholder="Cari destinasi...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Jelajahi Keindahan Sulawesi Tengah</h2>
+            <p>Temukan destinasi wisata menarik, produk UMKM lokal, dan event seru di Kota Palu dan sekitarnya</p>
+            <a href="#wisata" class="btn">Jelajahi Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Wisata Section -->
+    <section id="wisata">
+        <div class="container">
+            <div class="section-header">
+                <h2>Destinasi Wisata</h2>
+                <p>Nikmati keindahan alam dan budaya Sulawesi Tengah dengan mengunjungi destinasi wisata berikut</p>
+            </div>
+            <div class="wisata-grid">
+                <!-- Wisata 1 -->
+                <div class="wisata-card">
+                    <div class="wisata-img">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Pantai Talise">
+                    </div>
+                    <div class="wisata-info">
+                        <h3>Pantai Talise</h3>
+                        <div class="wisata-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kota Palu, Sulawesi Tengah</span>
+                        </div>
+                        <p class="wisata-desc">Pantai dengan pasir putih dan pemandangan sunset yang menakjubkan, dilengkapi dengan berbagai fasilitas wisata.</p>
+                        <div class="wisata-meta">
+                            <div class="wisata-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.5 (1.2k ulasan)</span>
+                            </div>
+                            <a href="#" class="wisata-map">
+                                <i class="fas fa-map"></i>
+                                <span>Lihat Peta</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wisata 2 -->
+                <div class="wisata-card">
+                    <div class="wisata-img">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Lore Lindu">
+                    </div>
+                    <div class="wisata-info">
+                        <h3>Taman Nasional Lore Lindu</h3>
+                        <div class="wisata-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kabupaten Sigi, Sulawesi Tengah</span>
+                        </div>
+                        <p class="wisata-desc">Situs warisan dunia UNESCO dengan keanekaragaman hayati tinggi dan megalit kuno yang misterius.</p>
+                        <div class="wisata-meta">
+                            <div class="wisata-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (856 ulasan)</span>
+                            </div>
+                            <a href="#" class="wisata-map">
+                                <i class="fas fa-map"></i>
+                                <span>Lihat Peta</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wisata 3 -->
+                <div class="wisata-card">
+                    <div class="wisata-img">
+                        <img src="https://images.unsplash.com/photo-1588666309990-d68f08e3d4a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Air Terjun Saluopa">
+                    </div>
+                    <div class="wisata-info">
+                        <h3>Air Terjun Saluopa</h3>
+                        <div class="wisata-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kabupaten Poso, Sulawesi Tengah</span>
+                        </div>
+                        <p class="wisata-desc">Air terjun bertingkat dengan 12 tingkat yang menawarkan pemandangan alam yang menakjubkan dan air yang jernih.</p>
+                        <div class="wisata-meta">
+                            <div class="wisata-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7 (932 ulasan)</span>
+                            </div>
+                            <a href="#" class="wisata-map">
+                                <i class="fas fa-map"></i>
+                                <span>Lihat Peta</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UMKM Section -->
+    <section id="umkm" class="umkm-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Produk UMKM Lokal</h2>
+                <p>Dukung perekonomian lokal dengan membeli produk-produk berkualitas dari UMKM Sulawesi Tengah</p>
+            </div>
+            <div class="category-filter">
+                <button class="category-btn active">Semua</button>
+                <button class="category-btn">Makanan</button>
+                <button class="category-btn">Kerajinan</button>
+                <button class="category-btn">Fashion</button>
+                <button class="category-btn">Suvenir</button>
+            </div>
+            <div class="umkm-grid">
+                <!-- UMKM 1 -->
+                <div class="umkm-card">
+                    <div class="umkm-img">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Kopi Toro">
+                    </div>
+                    <div class="umkm-info">
+                        <span class="umkm-category">Makanan & Minuman</span>
+                        <h3>Kopi Toro</h3>
+                        <p class="umkm-desc">Kopi arabika khas dataran tinggi Toro dengan cita rasa yang khas dan aroma yang harum.</p>
+                        <p class="umkm-price">Rp 45.000 - Rp 120.000</p>
+                        <p class="umkm-story">Dibudidayakan oleh petani lokal dengan metode organik, Kopi Toro telah menjadi komoditas unggulan Sulawesi Tengah sejak 1990-an.</p>
+                        <a href="#" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+                
+                <!-- UMKM 2 -->
+                <div class="umkm-card">
+                    <div class="umkm-img">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Tenun Donggala">
+                    </div>
+                    <div class="umkm-info">
+                        <span class="umkm-category">Fashion</span>
+                        <h3>Tenun Donggala</h3>
+                        <p class="umkm-desc">Kain tenun tradisional dengan motif khas Donggala yang dibuat menggunakan teknik tenun manual.</p>
+                        <p class="umkm-price">Rp 150.000 - Rp 850.000</p>
+                        <p class="umkm-story">Tenun Donggala merupakan warisan budaya yang telah diwariskan turun-temurun, setiap motif memiliki makna filosofis yang dalam.</p>
+                        <a href="#" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+                
+                <!-- UMKM 3 -->
+                <div class="umkm-card">
+                    <div class="umkm-img">
+                        <img src="https://images.unsplash.com/photo-1562602833-1b13eec9c5c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Keripik Pisang">
+                    </div>
+                    <div class="umkm-info">
+                        <span class="umkm-category">Makanan</span>
+                        <h3>Keripik Pisang Palu</h3>
+                        <p class="umkm-desc">Keripik pisang renyah dengan berbagai varian rasa, dibuat dari pisang pilihan tanpa pengawet.</p>
+                        <p class="umkm-price">Rp 15.000 - Rp 35.000</p>
+                        <p class="umkm-story">Dibuat oleh kelompok ibu-rumah tangga di Palu, keripik ini telah menjadi oleh-oleh khas yang banyak dicari wisatawan.</p>
+                        <a href="#" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Section -->
+    <section id="event">
+        <div class="container">
+            <div class="section-header">
+                <h2>Event & Kegiatan</h2>
+                <p>Temukan event menarik yang akan berlangsung di Sulawesi Tengah</p>
+            </div>
+            <div class="event-grid">
+                <!-- Event 1 -->
+                <div class="event-card">
+                    <div class="event-date">
+                        <div class="day">15</div>
+                        <div class="month">Juli 2023</div>
+                    </div>
+                    <div class="event-img">
+                        <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Festival Danau Poso">
+                    </div>
+                    <div class="event-info">
+                        <span class="event-type">Festival Budaya</span>
+                        <h3>Festival Danau Poso</h3>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Danau Poso, Tentena</span>
+                        </div>
+                        <div class="event-organizer">
+                            <i class="fas fa-user"></i>
+                            <span>Pemkab Poso</span>
+                        </div>
+                        <p>Festival tahunan menampilkan kesenian tradisional, kuliner khas, dan berbagai perlombaan di sekitar Danau Poso.</p>
+                        <div class="event-price">
+                            <span class="price-tag">Gratis</span>
+                            <a href="#" class="btn">Daftar Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="event-card">
+                    <div class="event-date">
+                        <div class="day">22</div>
+                        <div class="month">Agustus 2023</div>
+                    </div>
+                    <div class="event-img">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Palu Marathon">
+                    </div>
+                    <div class="event-info">
+                        <span class="event-type">Olahraga</span>
+                        <h3>Palu Marathon 2023</h3>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kota Palu</span>
+                        </div>
+                        <div class="event-organizer">
+                            <i class="fas fa-user"></i>
+                            <span>Dinas Pemuda dan Olahraga</span>
+                        </div>
+                        <p>Lari marathon dengan rute menelusuri keindahan Kota Palu, tersedia kategori 5K, 10K, dan 21K.</p>
+                        <div class="event-price">
+                            <span class="price-tag">Rp 75.000 - Rp 150.000</span>
+                            <a href="#" class="btn">Daftar Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="event-card">
+                    <div class="event-date">
+                        <div class="day">10</div>
+                        <div class="month">September 2023</div>
+                    </div>
+                    <div class="event-img">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Konser Musik">
+                    </div>
+                    <div class="event-info">
+                        <span class="event-type">Konser Musik</span>
+                        <h3>Palu Music Festival</h3>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Taman Talise, Palu</span>
+                        </div>
+                        <div class="event-organizer">
+                            <i class="fas fa-user"></i>
+                            <span>Komunitas Musik Palu</span>
+                        </div>
+                        <p>Festival musik menampilkan musisi lokal dan nasional dengan berbagai genre musik.</p>
+                        <div class="event-price">
+                            <span class="price-tag">Rp 50.000 - Rp 150.000</span>
+                            <a href="#" class="btn">Daftar Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Tentang Palu Explorer</h3>
+                    <p>Platform informasi wisata, UMKM, dan event di Sulawesi Tengah yang bertujuan mempromosikan potensi daerah kepada masyarakat luas.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Link Cepat</h3>
+                    <ul>
+                        <li><a href="#">Beranda</a></li>
+                        <li><a href="#wisata">Wisata</a></li>
+                        <li><a href="#umkm">UMKM</a></li>
+                        <li><a href="#event">Event</a></li>
+                        <li><a href="#">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontak Kami</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Dr. Sutomo No. 12, Palu</li>
+                        <li><i class="fas fa-phone"></i> (0451) 123456</li>
+                        <li><i class="fas fa-envelope"></i> info@paluexplorer.id</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Palu Explorer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for category filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // In a real implementation, you would filter the UMKM cards here
+                    // based on the selected category
+                });
+            });
+        });
+    </script>
+</body>
+</html>
